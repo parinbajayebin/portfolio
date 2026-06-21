@@ -21,13 +21,13 @@ An interactive, story-driven portfolio inspired by Studio Ghibli, Monument Valle
 
 ## 🚀 Live Demo
 
-👉 [Visit Portfolio](#)
+👉 [parin-portfolio-lac.vercel.app](#)
 
 ## 📫 Connect With Me
 
 - GitHub: [@parinbajayebin](https://github.com/parinbajayebin)
-- LinkedIn: [Your LinkedIn]
-- Instagram: [Your Instagram]
+- LinkedIn: [https://www.linkedin.com/in/parin-makwana-b614a6333?utm_source=share_via&utm_content=profile&utm_medium=member_android]
+- Instagram: [https://instagram.com/parinnyarr]
 
 ---
 
