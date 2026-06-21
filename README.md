@@ -21,7 +21,7 @@ An interactive, story-driven portfolio inspired by Studio Ghibli, Monument Valle
 
 ## 🚀 Live Demo
 
-👉 [parin-portfolio-lac.vercel.app](#)
+👉 [parin-portfolio-lac.vercel.app]
 
 ## 📫 Connect With Me
 
