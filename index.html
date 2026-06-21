@@ -547,7 +547,7 @@ section{ position:relative; }
   .card-right .tech-tags{ justify-content:flex-start; }
   .card-right .area__story, .card-right .project-card, .card-right .achievement-badge{ margin-left:0; }
   .area__decor > *{ opacity:.55; transform:scale(0.8); }
-  .traveler{ display:none; }
+  .traveler{ transform:translate(-50%,-50%) scale(0.7); }
 }
 @media (max-width: 520px){
   .hero__buttons{ flex-direction:column; width:100%; }
@@ -1196,7 +1196,6 @@ section{ position:relative; }
     lenis = new Lenis({
       duration: 1.15,
       smoothWheel: true,
-      smoothTouch: true,
       easing: function (t) { return 1 - Math.pow(1 - t, 3); }
     });
 
@@ -1300,10 +1299,11 @@ section{ position:relative; }
      TRAVELER — the little lantern-carrying marker that
      wanders down the winding road of "areas"
      ---------------------------------------------------------- */
-  var traveler = document.getElementById('traveler');
-  if (traveler && hasGSAP && window.innerWidth > 860) {
+ var traveler = document.getElementById('traveler');
+  if (traveler && hasGSAP) {
     var roadStart = document.getElementById('forest');
     var roadEnd = document.getElementById('blossomvalley');
+    var swingAmplitude = window.innerWidth <= 860 ? 18 : 30;
     if (roadStart && roadEnd) {
       ScrollTrigger.create({
         trigger: roadStart,
@@ -1313,7 +1313,7 @@ section{ position:relative; }
         onUpdate: function (self) {
           var p = self.progress;
           var top = 14 + p * 74;
-          var left = 50 + Math.sin(p * Math.PI * 9) * 30;
+          var left = 50 + Math.sin(p * Math.PI * 9) * swingAmplitude;
           traveler.style.top = top + '%';
           traveler.style.left = left + '%';
         },
