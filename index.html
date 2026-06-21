@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parin's Adventure — A Journey Through Worlds</title>
+<meta name="description" content="Parin D. Makwana — Backend Engineer & AI Builder. A storybook portfolio.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   PARIN'S ADVENTURE — STYLESHEET
+   A storybook journey: warm, rounded, hand-painted, Ghibli-soft.
+   ============================================================ */
+
+:root{
+  /* palette */
+  --cream:        #FFF8EE;
+  --cream-deep:   #F4E9D2;
+  --white-soft:   #FFFDF8;
+  --ink:          #463F58;
+  --ink-soft:     #6E6480;
+  --ink-pale:     #948AA8;
+
+  --sky-dawn:     #FBDCB8;
+  --sky-day:      #BFE6F2;
+  --sky-deep:     #82C2E6;
+  --sky-dusk:     #F0A98B;
+  --sky-twilight: #8E84C2;
+  --sky-night:    #2B2750;
+
+  --meadow:       #AEDBAA;
+  --meadow-deep:  #7DBE83;
+  --lavender:     #CBB9E3;
+  --lavender-deep:#A893CC;
+  --amber:        #F2A65A;
+  --amber-deep:   #DE832E;
+  --blossom:      #F7C2CD;
+  --blossom-deep: #EE93A8;
+  --gold:         #E8B23F;
+  --river-blue:   #9FD3E6;
+
+  /* type */
+  --font-display: 'Baloo 2', 'Quicksand', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --font-label: 'Quicksand', sans-serif;
+
+  --radius-lg: 32px;
+  --radius-md: 20px;
+  --shadow-soft: 0 18px 40px -12px rgba(70,63,88,0.22);
+  --shadow-soft-sm: 0 10px 24px -10px rgba(70,63,88,0.18);
+}
+
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:
+    linear-gradient(180deg,
+      var(--sky-dawn)    0%,
+      var(--sky-day)     9%,
+      var(--sky-deep)    20%,
+      var(--sky-deep)    30%,
+      var(--sky-twilight)42%,
+      var(--sky-dusk)    52%,
+      var(--lavender-deep) 60%,
+      var(--sky-night)   70%,
+      var(--sky-night)   80%,
+      var(--ink)         86%,
+      var(--sky-dusk)    93%,
+      var(--sky-night)   100%
+    );
+  background-attachment: scroll;
+  overflow-x:hidden;
+  position:relative;
+}
+img{ max-width:100%; display:block; }
+ul{ margin:0; padding:0; list-style:none; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; cursor:pointer; }
+section{ position:relative; }
+
+::selection{ background:var(--amber); color:var(--white-soft); }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+}
+
+/* ---------- twinkling stars (toggled brighter on night sections) ---------- */
+.sky-stars{
+  position:fixed; inset:0; pointer-events:none; z-index:1;
+  opacity:0; transition:opacity 1.2s ease;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, #fff, transparent),
+    radial-gradient(2px 2px at 80% 10%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 30% 60%, #fff, transparent),
+    radial-gradient(2px 2px at 60% 35%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 90% 70%, #fff, transparent),
+    radial-gradient(2px 2px at 45% 85%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 15% 90%, #fff, transparent),
+    radial-gradient(2px 2px at 70% 55%, #fff, transparent);
+  animation: twinkle 4s ease-in-out infinite alternate;
+}
+.sky-stars.is-bright{ opacity:0.9; }
+@keyframes twinkle{ from{ filter:brightness(0.7); } to{ filter:brightness(1.3); } }
+
+/* ============================================================
+   QUEST LOG (chapter nav)
+   ============================================================ */
+.questlog{
+  position:fixed; top:50%; right:1.2rem; transform:translateY(-50%);
+  z-index:60; display:flex; flex-direction:column; align-items:flex-end; gap:.5rem;
+}
+.questlog__toggle{
+  width:46px; height:46px; border-radius:50%; border:2px solid rgba(255,255,255,0.6);
+  background:rgba(255,255,255,0.35); backdrop-filter:blur(6px);
+  box-shadow:var(--shadow-soft-sm); font-size:1.3rem; display:flex; align-items:center; justify-content:center;
+  transition:transform .25s ease;
+}
+.questlog__toggle:hover{ transform:scale(1.08) rotate(-6deg); }
+.questlog__list{
+  max-height:0; overflow:hidden; opacity:0; transform:translateY(-6px);
+  transition:max-height .35s ease, opacity .3s ease, transform .3s ease;
+  background:rgba(255,253,248,0.7); backdrop-filter:blur(8px);
+  border-radius:var(--radius-md); padding:0 .4rem;
+  box-shadow:var(--shadow-soft-sm);
+}
+.questlog__list.is-open{ max-height:70vh; opacity:1; transform:translateY(0); padding:.6rem .4rem; overflow-y:auto; }
+.questlog__list li a{
+  display:block; padding:.45rem .8rem; font-family:var(--font-label); font-size:.82rem;
+  font-weight:600; color:var(--ink-soft); border-radius:12px; white-space:nowrap;
+  transition:background .2s, color .2s;
+}
+.questlog__list li a:hover, .questlog__list li a.is-active{ background:var(--amber); color:#fff; }
+
+@media (max-width: 720px){
+  .questlog{ right:.7rem; }
+  .questlog__list{ right:0; }
+}
+
+/* ---------- traveler marker (the "character" walking the road) ---------- */
+.traveler{
+  position:fixed; left:50%; top:18%; z-index:55; pointer-events:none;
+  transform:translate(-50%,-50%); transition: top .15s linear, left .15s linear, opacity .3s ease;
+  opacity:0;
+}
+.traveler.is-visible{ opacity:1; }
+.traveler__lantern{ font-size:1.6rem; filter:drop-shadow(0 4px 8px rgba(0,0,0,0.35)); animation: lantern-sway 2.4s ease-in-out infinite; }
+.traveler__glow{
+  position:absolute; inset:-10px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,210,140,0.55), transparent 70%);
+  filter:blur(4px);
+}
+@keyframes lantern-sway{ 0%,100%{ transform:rotate(-8deg); } 50%{ transform:rotate(8deg); } }
+
+/* ============================================================
+   SHARED PATTERNS
+   ============================================================ */
+.area__signpost{
+  display:inline-block; font-family:var(--font-label); font-weight:600; letter-spacing:.04em;
+  font-size:.92rem; color:var(--ink-soft); margin-bottom:.6rem;
+}
+.area__signpost--center{ display:block; text-align:center; }
+.area__title{
+  font-family:var(--font-display); font-weight:700; color:var(--ink);
+  font-size:clamp(2.1rem, 4vw, 3.1rem); margin:0 0 1.1rem; line-height:1.1;
+}
+.area__title--center{ text-align:center; }
+.area__story{ font-size:1.08rem; line-height:1.75; color:var(--ink-soft); max-width:520px; margin:0 0 1.6rem; }
+
+.project-card{
+  background:rgba(255,253,248,0.78); backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,0.6); border-radius:var(--radius-lg);
+  padding:1.7rem 1.8rem; box-shadow:var(--shadow-soft); max-width:520px;
+}
+.project-card__title{ font-family:var(--font-display); font-size:1.3rem; margin:0 0 .9rem; color:var(--ink); }
+.project-card__label{ font-family:var(--font-label); font-weight:600; font-size:.82rem; color:var(--ink-pale); margin:1rem 0 .5rem; text-transform:uppercase; letter-spacing:.05em; }
+.role-pill{ font-family:var(--font-label); font-size:.68rem; font-weight:700; background:var(--lavender); color:#3d2f55; padding:.2rem .6rem; border-radius:20px; margin-left:.5rem; vertical-align:middle; text-transform:uppercase; }
+
+.tech-tags{ display:flex; flex-wrap:wrap; gap:.5rem; margin-bottom:.4rem; }
+.tech-tags li{
+  font-family:var(--font-label); font-size:.78rem; font-weight:600; color:#3d3450;
+  background:var(--cream-deep); padding:.32rem .75rem; border-radius:14px; border:1px solid rgba(70,63,88,0.08);
+}
+.feature-list li{
+  position:relative; padding-left:1.3rem; margin-bottom:.45rem; color:var(--ink-soft); line-height:1.5; font-size:.97rem;
+}
+.feature-list li::before{ content:"🌿"; position:absolute; left:0; top:0; font-size:.85em; }
+
+.achievement-badge{
+  display:inline-flex; align-items:center; gap:.6rem; margin-top:1.6rem;
+  background:linear-gradient(135deg, var(--gold), var(--amber)); color:#3c2a10;
+  padding:.7rem 1.2rem; border-radius:50px; font-family:var(--font-label); font-weight:700; font-size:.92rem;
+  box-shadow:0 10px 24px -8px rgba(222,131,46,0.55);
+}
+.achievement-badge--center{ display:flex; justify-content:center; margin:2.5rem auto 0; width:fit-content; }
+.achievement-badge__icon{ font-size:1.2rem; }
+
+/* generic buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:.4rem;
+  font-family:var(--font-label); font-weight:700; font-size:.95rem;
+  padding:.85rem 1.6rem; border-radius:50px; transition:transform .2s ease, box-shadow .2s ease;
+}
+.btn--primary{ background:linear-gradient(135deg, var(--amber), var(--amber-deep)); color:#fff; box-shadow:0 14px 28px -10px rgba(222,131,46,0.6); }
+.btn--primary:hover{ transform:translateY(-3px) scale(1.03); }
+.btn--ghost{ background:rgba(255,255,255,0.55); border:2px solid rgba(70,63,88,0.18); color:var(--ink); }
+.btn--ghost:hover{ background:rgba(255,255,255,0.85); transform:translateY(-3px); }
+.btn--icon{ background:rgba(70,63,88,0.08); color:var(--ink); border:2px solid rgba(70,63,88,0.12); }
+.btn--icon:hover{ background:var(--ink); color:#fff; transform:translateY(-3px); }
+
+/* compact link buttons used inside project cards (GitHub / Live demo) */
+.project-card__links{ display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.1rem; }
+.card-link{
+  display:inline-flex; align-items:center; gap:.4rem;
+  font-family:var(--font-label); font-weight:700; font-size:.8rem;
+  padding:.5rem 1rem; border-radius:50px; transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.card-link__icon{ font-size:.95rem; line-height:1; }
+.card-link--code{ background:rgba(70,63,88,0.08); color:var(--ink); border:2px solid rgba(70,63,88,0.14); }
+.card-link--code:hover{ background:var(--ink); color:#fff; transform:translateY(-2px); }
+.card-link--live{ background:linear-gradient(135deg, var(--amber), var(--amber-deep)); color:#fff; box-shadow:0 10px 20px -8px rgba(222,131,46,0.55); }
+.card-link--live:hover{ transform:translateY(-2px) scale(1.02); }
+.card-right .project-card__links{ justify-content:flex-start; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; overflow:hidden; padding:6rem 1.5rem 4rem;
+}
+.hero__inner{ position:relative; z-index:5; max-width:760px; display:flex; flex-direction:column; align-items:center; }
+
+.press-start{
+  font-family:var(--font-label); font-weight:700; letter-spacing:.15em; color:var(--amber-deep);
+  font-size:.95rem; margin:0 0 1.6rem; animation:blink-press 1.6s steps(2) infinite;
+}
+@keyframes blink-press{ 50%{ opacity:.25; } }
+
+.hero__portrait{ position:relative; margin-bottom:1.4rem; }
+.hero__portrait-frame{
+  width:148px; height:148px; border-radius:50%; overflow:hidden;
+  border:6px solid var(--white-soft); box-shadow:var(--shadow-soft), 0 0 0 10px rgba(242,166,90,0.25);
+  background:var(--cream-deep);
+}
+.hero__portrait-frame img{ width:100%; height:100%; object-fit:cover; }
+.hero__portrait-leaf{ position:absolute; font-size:1.4rem; filter:drop-shadow(0 4px 6px rgba(0,0,0,0.15)); }
+.leaf--1{ top:-6px; left:-16px; animation:leaf-sway 3.4s ease-in-out infinite; }
+.leaf--2{ bottom:-4px; right:-18px; animation:leaf-sway 3.8s ease-in-out infinite reverse; }
+@keyframes leaf-sway{ 0%,100%{ transform:rotate(-10deg) translateY(0); } 50%{ transform:rotate(10deg) translateY(-4px); } }
+
+.hero__name{ font-family:var(--font-display); font-size:clamp(2.3rem, 6vw, 3.6rem); margin:0 0 .7rem; color:var(--ink); }
+.hero__headline{ font-size:clamp(1.05rem, 2.4vw, 1.35rem); color:var(--ink-soft); line-height:1.6; margin:0 0 1.4rem; font-weight:600; }
+
+.hero__roles{ display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; margin-bottom:2.1rem; }
+.hero__roles li{
+  font-family:var(--font-label); font-size:.82rem; font-weight:600; color:#3d3450;
+  background:rgba(255,253,248,0.75); padding:.4rem .9rem; border-radius:20px; border:1px solid rgba(70,63,88,0.1);
+  box-shadow:var(--shadow-soft-sm);
+}
+.hero__buttons{ display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; margin-bottom:2.6rem; }
+
+.scroll-cue{ display:flex; flex-direction:column; align-items:center; gap:.5rem; color:var(--ink-soft); font-family:var(--font-label); font-size:.78rem; letter-spacing:.06em; }
+.scroll-cue__arrow{ width:14px; height:14px; border-right:2px solid var(--ink-soft); border-bottom:2px solid var(--ink-soft); transform:rotate(45deg); animation:cue-bob 1.6s ease-in-out infinite; }
+@keyframes cue-bob{ 0%,100%{ transform:rotate(45deg) translate(0,0); } 50%{ transform:rotate(45deg) translate(4px,4px); } }
+
+/* clouds / birds / hill / grass ambient layer */
+.hero__clouds, .hero__birds{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+.cloud{
+  position:absolute; background:#fff; border-radius:50px; opacity:.85; filter:blur(0.3px);
+  box-shadow:40px 6px 0 -4px #fff, -40px 10px 0 -6px #fff, 70px -8px 0 -10px #fff;
+}
+.cloud--1{ width:120px; height:42px; top:12%; left:8%; animation:drift 38s linear infinite; }
+.cloud--2{ width:90px; height:32px; top:22%; left:65%; animation:drift 46s linear infinite reverse; }
+.cloud--3{ width:70px; height:26px; top:8%; left:42%; animation:drift 30s linear infinite; }
+.cloud--4{ width:100px; height:36px; top:32%; left:20%; animation:drift 52s linear infinite reverse; }
+@keyframes drift{ 0%{ transform:translateX(-10vw); } 100%{ transform:translateX(110vw); } }
+
+.bird{ position:absolute; font-size:1rem; color:var(--ink-soft); transform:rotate(90deg); }
+.bird--1{ top:18%; left:-5%; animation:fly 22s linear infinite; }
+.bird--2{ top:26%; left:-10%; animation:fly 28s linear infinite 4s; }
+.bird--3{ top:14%; left:-8%; animation:fly 25s linear infinite 9s; }
+@keyframes fly{ 0%{ transform:translate(-5vw,0) rotate(90deg); } 50%{ transform:translate(55vw,-30px) rotate(90deg); } 100%{ transform:translate(115vw,0) rotate(90deg); } }
+
+.hero__hill{
+  position:absolute; bottom:-60px; left:-10%; width:120%; height:220px; border-radius:50%;
+  background:linear-gradient(180deg, var(--meadow), var(--meadow-deep)); z-index:2;
+}
+.hero__grass{
+  position:absolute; bottom:0; left:0; width:100%; height:60px; z-index:3;
+  background:repeating-linear-gradient(100deg, var(--meadow-deep) 0 6px, transparent 6px 14px);
+  opacity:.5; animation:grass-sway 4s ease-in-out infinite;
+}
+@keyframes grass-sway{ 0%,100%{ transform:translateX(0); } 50%{ transform:translateX(4px); } }
+
+/* ============================================================
+   AREA SECTIONS (general)
+   ============================================================ */
+.area{
+  min-height:100vh; display:flex; align-items:center; padding:7rem 7vw 9rem;
+}
+.area__content{ position:relative; z-index:5; max-width:560px; }
+.card-left{ margin-right:auto; }
+.card-right{ margin-left:auto; text-align:right; }
+.card-right .feature-list li{ padding-left:0; padding-right:1.3rem; }
+.card-right .feature-list li::before{ left:auto; right:0; }
+.card-right .tech-tags{ justify-content:flex-end; }
+.card-right .area__story{ margin-left:auto; }
+.card-right .project-card{ margin-left:auto; text-align:left; }
+.card-right .achievement-badge{ margin-left:auto; }
+
+.area__decor{ position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
+.area__decor > *{ position:absolute; filter:drop-shadow(0 8px 14px rgba(0,0,0,0.18)); }
+
+/* terrain horizon blob per area, gives the "floating biome" feel */
+.area::after{
+  content:""; position:absolute; left:-20%; bottom:-140px; width:140%; height:280px;
+  border-radius:50%; opacity:.55; z-index:0;
+}
+.area--forest::after{ background:radial-gradient(ellipse at center, var(--meadow-deep), transparent 70%); }
+.area--village::after{ background:radial-gradient(ellipse at center, var(--river-blue), transparent 70%); }
+.area--observatory::after{ background:radial-gradient(ellipse at center, var(--sky-twilight), transparent 70%); }
+.area--foodcity::after{ background:radial-gradient(ellipse at center, var(--amber), transparent 70%); }
+.area--lab::after{ background:radial-gradient(ellipse at center, var(--lavender-deep), transparent 70%); }
+.area--gapfinder::after{ background:radial-gradient(ellipse at center, var(--blossom-deep), transparent 70%); }
+.area--productioncity::after{ background:radial-gradient(ellipse at center, var(--sky-night), transparent 70%); }
+
+/* ---- Area 1: Questism Forest ---- */
+.area--forest .tree{ font-size:5rem; animation:tree-sway 5s ease-in-out infinite; }
+.tree--1{ top:10%; left:6%; animation-duration:6s; }
+.tree--2{ top:55%; left:14%; font-size:6.5rem; animation-duration:7s; }
+.tree--3{ top:20%; right:8%; animation-duration:5.5s; }
+@keyframes tree-sway{ 0%,100%{ transform:rotate(-3deg); } 50%{ transform:rotate(3deg); } }
+.area--forest .ray{
+  top:0; left:30%; width:2px; height:60%; background:linear-gradient(180deg, rgba(255,236,180,0.7), transparent);
+  transform:rotate(18deg); filter:blur(2px);
+}
+.firefly{ width:6px; height:6px; border-radius:50%; background:#FFE699; box-shadow:0 0 12px 4px rgba(255,224,130,0.8); animation:firefly-float 5s ease-in-out infinite; }
+.firefly--1{ top:60%; left:30%; }
+.firefly--2{ top:40%; right:25%; animation-duration:6.5s; }
+@keyframes firefly-float{ 0%,100%{ transform:translate(0,0); opacity:.4; } 50%{ transform:translate(14px,-18px); opacity:1; } }
+.campfire-icon{ font-size:2.6rem; bottom:8%; left:42%; animation:flicker 1.6s ease-in-out infinite; }
+@keyframes flicker{ 0%,100%{ transform:scale(1) rotate(-2deg); } 50%{ transform:scale(1.12) rotate(2deg); } }
+
+/* ---- Area 2: PHP Kingdom ---- */
+.area--village .windmill{ font-size:5rem; top:14%; right:12%; animation:spin-slow 9s linear infinite; transform-origin:50% 30%; }
+@keyframes spin-slow{ from{ transform:rotate(0deg); } to{ transform:rotate(360deg); } }
+.house--1{ font-size:4rem; bottom:18%; left:8%; }
+.house--2{ font-size:3.2rem; bottom:14%; left:22%; }
+.river{
+  position:absolute; bottom:0; left:-10%; width:120%; height:90px;
+  background:linear-gradient(90deg, var(--river-blue), #cdeef7, var(--river-blue));
+  border-radius:50%; opacity:.6; animation:river-shimmer 5s ease-in-out infinite;
+}
+@keyframes river-shimmer{ 0%,100%{ filter:brightness(1); } 50%{ filter:brightness(1.15); } }
+
+/* ---- Area 3: Data Observatory ---- */
+.area--observatory .floating-island{ font-size:5.5rem; top:14%; left:10%; animation:float-island 6s ease-in-out infinite; }
+@keyframes float-island{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-16px); } }
+.area--observatory .star{ color:#fff; font-size:1.4rem; animation:twinkle 2.4s ease-in-out infinite alternate; }
+.star--1{ top:10%; right:20%; } .star--2{ top:30%; right:8%; animation-delay:.6s; } .star--3{ top:18%; left:55%; animation-delay:1.1s; }
+.chart-float{ font-size:2.6rem; opacity:.85; animation:float-island 5s ease-in-out infinite; }
+.chart--1{ bottom:20%; right:18%; } .chart--2{ bottom:32%; right:30%; animation-duration:6.5s; }
+
+/* ---- Area 4: Food City ---- */
+.area--foodcity .building{ font-size:5rem; bottom:6%; }
+.building--1{ left:8%; } .building--2{ left:24%; font-size:4rem; }
+.car{ font-size:2rem; bottom:8%; animation:drive linear infinite; }
+.car--1{ left:-10%; animation-duration:9s; }
+.car--2{ left:-20%; animation-duration:12s; animation-delay:3s; }
+@keyframes drive{ 0%{ transform:translateX(0); } 100%{ transform:translateX(120vw); } }
+.area--foodcity .streetlight{ font-size:3rem; top:18%; right:14%; animation:flicker 2.2s ease-in-out infinite; }
+
+/* ---- Area 5: AI PDF Chatbot (split from former AI Research Island) ---- */
+.area--lab .book{ font-size:4rem; opacity:.9; }
+.book--1{ top:16%; left:10%; } .book--2{ bottom:22%; left:6%; font-size:3.4rem; }
+.area--lab .particle{ width:8px; height:8px; border-radius:50%; background:var(--lavender-deep); box-shadow:0 0 14px 4px rgba(168,147,204,0.6); animation:firefly-float 5.5s ease-in-out infinite; }
+.particle--1{ top:30%; right:25%; } .particle--2{ top:55%; right:14%; animation-duration:6s; } .particle--3{ top:18%; right:40%; animation-duration:7s; }
+
+/* ---- Area 6: Research Gap Finder (split from former AI Research Island) ---- */
+.area--gapfinder .book{ font-size:4rem; opacity:.9; top:18%; left:8%; }
+.area--gapfinder .lens{ font-size:3.6rem; opacity:.9; top:48%; left:18%; animation:float-island 5.5s ease-in-out infinite; }
+.area--gapfinder .particle{ width:8px; height:8px; border-radius:50%; background:var(--blossom-deep); box-shadow:0 0 14px 4px rgba(238,147,168,0.6); animation:firefly-float 5.5s ease-in-out infinite; }
+.area--gapfinder .particle--1{ top:28%; right:22%; } .area--gapfinder .particle--2{ top:52%; right:12%; animation-duration:6s; } .area--gapfinder .particle--3{ top:16%; right:38%; animation-duration:7s; }
+
+/* ---- Area 7: Production City ---- */
+.area--productioncity .skyline{ font-size:6rem; bottom:0; left:6%; opacity:.85; }
+.area--productioncity .train{ font-size:2.6rem; bottom:10%; animation:drive linear infinite 8s; }
+.light{ width:6px; height:6px; border-radius:50%; background:#FFE9A8; box-shadow:0 0 10px 4px rgba(255,233,168,0.7); animation:twinkle 2s ease-in-out infinite alternate; }
+.light--1{ top:20%; right:30%; } .light--2{ top:34%; right:18%; animation-delay:.4s; } .light--3{ top:14%; right:42%; animation-delay:.8s; }
+
+/* ============================================================
+   ABOUT — CAMPFIRE
+   ============================================================ */
+.campfire{ min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:7rem 6vw; }
+.campfire__decor{ position:relative; height:90px; margin-bottom:2rem; }
+.campfire__fire{ font-size:3.4rem; animation:flicker 1s ease-in-out infinite; }
+.campfire__log{ font-size:1.6rem; position:absolute; bottom:-6px; left:50%; transform:translateX(-50%); opacity:.8; }
+.campfire__spark{ position:absolute; width:4px; height:4px; border-radius:50%; background:var(--amber); }
+.spark--1{ left:48%; top:30%; animation:spark-rise 2.2s ease-in infinite; }
+.spark--2{ left:55%; top:40%; animation:spark-rise 2.6s ease-in infinite .4s; }
+.spark--3{ left:42%; top:35%; animation:spark-rise 1.8s ease-in infinite .8s; }
+@keyframes spark-rise{ 0%{ transform:translateY(0) scale(1); opacity:1; } 100%{ transform:translateY(-70px) scale(0.3); opacity:0; } }
+.campfire__content{ max-width:680px; }
+.campfire__text{ font-size:1.08rem; line-height:1.85; color:#fff; margin:0 0 1.3rem; }
+.campfire .area__signpost, .campfire .area__title{ text-align:center; }
+
+/* ============================================================
+   EDUCATION PATH
+   ============================================================ */
+.education{ padding:7rem 6vw; max-width:1000px; margin:0 auto; }
+.education .area__signpost{ color:#fff; }
+.education .area__title{ color:#fff; }
+.edu-road{
+  position:relative; margin-top:3rem; padding-left:2rem;
+  border-left:4px dashed rgba(70,63,88,0.25);
+}
+.edu-node{ position:relative; padding-bottom:2.8rem; padding-left:1.6rem; }
+.edu-node:last-child{ padding-bottom:0; }
+.edu-node__marker{
+  position:absolute; left:-3.05rem; top:-.2rem; width:48px; height:48px; border-radius:50%;
+  background:var(--white-soft); border:3px solid var(--amber); display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; box-shadow:var(--shadow-soft-sm);
+}
+.edu-node__card{
+  background:rgba(255,253,248,0.78); border-radius:var(--radius-md); padding:1.1rem 1.4rem;
+  box-shadow:var(--shadow-soft-sm); display:inline-block; min-width:260px;
+}
+.edu-node__card h3{ font-family:var(--font-display); margin:0 0 .35rem; font-size:1.12rem; color:var(--ink); }
+.edu-node__card p{ margin:.1rem 0; color:var(--ink-soft); font-size:.92rem; }
+
+/* ============================================================
+   SKILL TREE
+   ============================================================ */
+.skilltree{ padding:7rem 6vw; max-width:1100px; margin:0 auto; }
+.skilltree .area__signpost{ color:#fff; }
+.skilltree .area__title{ color:#fff; }
+.skilltree__grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:1.4rem; margin-top:3rem; }
+.skill-branch{
+  background:rgba(255,253,248,0.72); border-radius:var(--radius-lg); padding:1.5rem 1.6rem;
+  box-shadow:var(--shadow-soft-sm); border:1px solid rgba(255,255,255,0.6);
+}
+.skill-branch__title{ font-family:var(--font-display); font-size:1.1rem; margin:0 0 .9rem; color:var(--ink); }
+.skill-leaves{ display:flex; flex-wrap:wrap; gap:.45rem; }
+.skill-leaves li{
+  font-family:var(--font-label); font-size:.8rem; font-weight:600; color:#3d3450;
+  background:var(--cream-deep); padding:.32rem .7rem; border-radius:14px;
+  transition:transform .2s, background .2s;
+}
+.skill-leaves li:hover{ transform:translateY(-2px); background:var(--blossom); }
+
+/* ============================================================
+   NPC TERMINAL
+   ============================================================ */
+.npc{ padding:7rem 6vw; max-width:680px; margin:0 auto; }
+.npc .area__signpost{ color:#fff; }
+.npc .area__title{ color:#fff; }
+.npc__window{
+  margin-top:2.6rem; background:rgba(35,30,55,0.92); border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-soft); overflow:hidden; border:1px solid rgba(255,255,255,0.08);
+}
+.npc__header{ display:flex; align-items:center; gap:.6rem; padding:.8rem 1.2rem; background:rgba(255,255,255,0.06); }
+.npc__avatar{ font-size:1.3rem; }
+.npc__header-title{ font-family:var(--font-label); font-size:.82rem; color:#cfc8e0; }
+.npc__log{ padding:1.2rem 1.3rem; min-height:140px; max-height:280px; overflow-y:auto; font-family:var(--font-body); font-size:.93rem; line-height:1.6; }
+.npc__line{ margin:0 0 .8rem; color:#e7e1f5; }
+.npc__line--npc strong, .npc__line--npc code{ color:var(--amber); }
+.npc__line--npc code{ background:rgba(255,255,255,0.08); padding:.1rem .35rem; border-radius:6px; font-family:var(--font-label); }
+.npc__line--user{ color:#9fd6e8; text-align:right; }
+.npc__chips{ display:flex; gap:.5rem; padding:0 1.3rem .9rem; flex-wrap:wrap; }
+.npc__chips button{
+  font-family:var(--font-label); font-size:.78rem; font-weight:600; color:#e7e1f5;
+  background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.14); border-radius:14px; padding:.4rem .8rem;
+  transition:background .2s;
+}
+.npc__chips button:hover{ background:var(--amber); color:#3c2a10; }
+.npc__form{ display:flex; align-items:center; gap:.6rem; padding:.9rem 1.3rem; border-top:1px solid rgba(255,255,255,0.08); }
+.npc__prompt{ color:var(--amber); font-weight:700; }
+.npc__form input{
+  flex:1; background:transparent; border:none; outline:none; color:#fff; font-family:var(--font-body); font-size:.95rem;
+}
+.npc__form input::placeholder{ color:#8d84a8; }
+.npc__send{
+  font-family:var(--font-label); font-weight:700; font-size:.82rem; color:#3c2a10;
+  background:var(--amber); border:none; border-radius:12px; padding:.5rem 1rem;
+}
+
+/* ============================================================
+   BLOSSOM VALLEY (final)
+   ============================================================ */
+.blossomvalley{ min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; padding:7rem 6vw; overflow:hidden; }
+.blossomvalley__decor{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+.blossom-tree{ position:absolute; font-size:7rem; animation:tree-sway 6s ease-in-out infinite; filter:drop-shadow(0 10px 16px rgba(0,0,0,0.18)); }
+.blossom-tree--1{ top:6%; left:2%; }
+.blossom-tree--2{ bottom:0%; right:0%; transform:scaleX(-1); animation-duration:7s; }
+.blossomvalley .sun{
+  position:absolute; top:18%; left:50%; transform:translateX(-50%); width:140px; height:140px; border-radius:50%;
+  background:radial-gradient(circle, #FFE3B0, var(--amber) 70%); filter:blur(2px); opacity:.7; z-index:0;
+}
+.blossomvalley__content{ position:relative; z-index:5; max-width:680px; }
+.blossomvalley__headline{ font-family:var(--font-display); font-size:clamp(1.7rem, 4vw, 2.6rem); color:var(--ink); margin:0 0 1.2rem; line-height:1.25; }
+.blossomvalley__dream{ font-size:1.05rem; color:var(--ink-soft); line-height:1.75; }
+
+.petal-container{ position:absolute; inset:0; z-index:2; pointer-events:none; overflow:hidden; }
+.petal{ position:absolute; top:-20px; font-size:1.1rem; will-change:transform; animation:petal-fall linear infinite; }
+@keyframes petal-fall{
+  0%{ transform:translate(0,0) rotate(0deg); opacity:.9; }
+  100%{ transform:translate(var(--drift,40px), 110vh) rotate(360deg); opacity:.8; }
+}
+
+/* ============================================================
+   SHRINE / CONTACT
+   ============================================================ */
+.shrine{ min-height:90vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 6vw 2rem; overflow:hidden; }
+.shrine__decor{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+.shrine__torii{ position:absolute; bottom:0; left:50%; transform:translateX(-50%); font-size:9rem; opacity:.55; }
+.shrine__lantern{ position:absolute; font-size:2.4rem; animation:lantern-sway 3s ease-in-out infinite; }
+.lantern--1{ top:18%; left:14%; } .lantern--2{ top:24%; right:14%; animation-delay:.6s; }
+.shrine__star{ position:absolute; color:#fff; animation:twinkle 2.4s ease-in-out infinite alternate; }
+.s1{ top:10%; left:30%; } .s2{ top:16%; right:28%; animation-delay:.5s; } .s3{ top:6%; left:55%; animation-delay:1s; }
+.shrine__content{ position:relative; z-index:5; max-width:560px; }
+.shrine__text{ color:var(--ink-soft); font-size:1.02rem; margin:0 0 1.6rem; }
+.shrine__buttons{ display:flex; flex-wrap:wrap; gap:.8rem; justify-content:center; }
+.btn--shrine{ background:rgba(255,253,248,0.85); color:var(--ink); border:2px solid rgba(255,255,255,0.7); box-shadow:var(--shadow-soft-sm); }
+.btn--shrine:hover{ background:#fff; transform:translateY(-3px); }
+.footer{ position:relative; z-index:5; margin-top:3.5rem; text-align:center; color:rgba(255,255,255,0.75); font-size:.82rem; font-family:var(--font-label); }
+.shrine .area__title{ color:var(--white-soft); }
+.shrine .area__signpost{ color:rgba(255,255,255,0.75); }
+
+/* (scroll reveal is handled entirely via GSAP in JS, so content
+   degrades gracefully to "fully visible" if the CDN scripts fail) */
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 860px){
+  .area{ padding:5.5rem 6vw 7rem; }
+  .card-left, .card-right{ margin:0 auto; text-align:left !important; }
+  .card-right .feature-list li{ padding-left:1.3rem; padding-right:0; }
+  .card-right .feature-list li::before{ left:0; right:auto; }
+  .card-right .tech-tags{ justify-content:flex-start; }
+  .card-right .area__story, .card-right .project-card, .card-right .achievement-badge{ margin-left:0; }
+  .area__decor > *{ opacity:.55; transform:scale(0.8); }
+  .traveler{ display:none; }
+}
+@media (max-width: 520px){
+  .hero__buttons{ flex-direction:column; width:100%; }
+  .hero__buttons .btn{ width:100%; }
+  .edu-road{ padding-left:1.2rem; }
+  .edu-node{ padding-left:1rem; }
+  .edu-node__marker{ left:-2.3rem; width:40px; height:40px; font-size:1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- continuous sky-cycle backdrop spanning the whole scroll height -->
+<div class="sky-backdrop" aria-hidden="true"></div>
+<div class="sky-stars" aria-hidden="true"></div>
+
+<!-- quest log / chapter nav -->
+<nav class="questlog" aria-label="Chapters">
+  <button class="questlog__toggle" id="questlogToggle" aria-expanded="false" aria-label="Open quest log">
+    <span class="questlog__icon">🗺️</span>
+  </button>
+  <ul class="questlog__list" id="questlogList">
+    <li><a href="#hero" data-chapter>Beginning</a></li>
+    <li><a href="#forest" data-chapter>Questism Forest</a></li>
+    <li><a href="#village" data-chapter>PHP Kingdom</a></li>
+    <li><a href="#observatory" data-chapter>Data Observatory</a></li>
+    <li><a href="#foodcity" data-chapter>Food City</a></li>
+    <li><a href="#aipdfchatbot" data-chapter>AI PDF Chatbot</a></li>
+    <li><a href="#gapfinder" data-chapter>Research Gap Finder</a></li>
+    <li><a href="#productioncity" data-chapter>Production City</a></li>
+    <li><a href="#campfire" data-chapter>About Me</a></li>
+    <li><a href="#education" data-chapter>Education Path</a></li>
+    <li><a href="#skilltree" data-chapter>Skill Tree</a></li>
+    <li><a href="#npc" data-chapter>Wise Traveler</a></li>
+    <li><a href="#blossomvalley" data-chapter>Blossom Valley</a></li>
+    <li><a href="#contact" data-chapter>Shrine</a></li>
+  </ul>
+</nav>
+
+<!-- the traveler marker that walks along the road -->
+<div class="traveler" id="traveler" aria-hidden="true">
+  <div class="traveler__glow"></div>
+  <div class="traveler__lantern">🏮</div>
+</div>
+
+<main>
+
+<!-- ============================= HERO ============================= -->
+<section class="hero" id="hero">
+  <div class="hero__clouds" aria-hidden="true">
+    <span class="cloud cloud--1"></span>
+    <span class="cloud cloud--2"></span>
+    <span class="cloud cloud--3"></span>
+    <span class="cloud cloud--4"></span>
+  </div>
+  <div class="hero__birds" aria-hidden="true">
+    <span class="bird bird--1">⌃</span>
+    <span class="bird bird--2">⌃</span>
+    <span class="bird bird--3">⌃</span>
+  </div>
+  <div class="hero__hill" aria-hidden="true"></div>
+  <div class="hero__grass" aria-hidden="true"></div>
+
+  <div class="hero__inner">
+    <p class="press-start" id="pressStart">✦ Press Start ✦</p>
+
+        <div class="hero__portrait">
+      <div class="hero__portrait-frame">
+        <img src="portrait.png" alt="Portrait of Parin D. Makwana" loading="eager">
+      </div>
+      <span class="hero__portrait-leaf leaf--1">🍃</span>
+      <span class="hero__portrait-leaf leaf--2">🍃</span>
+    </div>
+
+    <h1 class="hero__name">Parin D. Makwana</h1>
+
+    <p class="hero__headline">
+      Building intelligent systems today.<br>
+      Creating interactive worlds tomorrow.
+    </p>
+
+    <ul class="hero__roles">
+      <li>Computer Science Student</li>
+      <li>Backend Engineer</li>
+      <li>AI Builder</li>
+      <li>Future Storyteller</li>
+    </ul>
+
+    <div class="hero__buttons">
+      <a href="#forest" class="btn btn--primary" id="beginJourneyBtn">Begin Journey</a>
+      <a href="Resume (1).pdf" download class="btn btn--ghost">Download Resume</a>
+      <a href="https://github.com/parinbajayebin" target="_blank" rel="noopener" class="btn btn--icon" aria-label="GitHub">GitHub</a>
+      <a href="https://www.linkedin.com/in/parin-makwana-b614a6333?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener" class="btn btn--icon" aria-label="LinkedIn">LinkedIn</a>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span>scroll to wander</span>
+      <div class="scroll-cue__arrow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AREA 1 — QUESTISM FOREST ============================= -->
+<section class="area area--forest" id="forest">
+  <div class="area__decor" aria-hidden="true">
+    <span class="tree tree--1">🌲</span>
+    <span class="tree tree--2">🌳</span>
+    <span class="tree tree--3">🌲</span>
+    <span class="ray"></span>
+    <span class="firefly firefly--1"></span>
+    <span class="firefly firefly--2"></span>
+    <span class="campfire-icon">🔥</span>
+  </div>
+
+  <div class="area__content card-left">
+    <span class="area__signpost">Area 01 — A worn signboard reads</span>
+    <h2 class="area__title">Questism Forest</h2>
+    <p class="area__story">
+      Sunlight broke through tall trees the day I wrote my very first lines of game logic.
+      It was second year, and the forest of "what if I just try this" hadn't been mapped yet.
+    </p>
+
+    <div class="project-card">
+      <h3 class="project-card__title">Questism — RPG Adventure Game</h3>
+      <ul class="tech-tags">
+        <li>HTML</li><li>CSS</li><li>JavaScript</li>
+      </ul>
+      <p class="project-card__label">What I learned along the trail</p>
+      <ul class="feature-list">
+        <li>Game logic &amp; state</li>
+        <li>Storytelling structure</li>
+        <li>Player interactions</li>
+        <li>Progression systems</li>
+      </ul>
+      <div class="project-card__links">
+        <a class="card-link card-link--code" href="https://github.com/parinbajayebin/multiple-games-js.git" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🗂️</span> GitHub Repo
+        </a>
+      </div>
+    </div>
+
+    <div class="achievement-badge">
+      <span class="achievement-badge__icon">🏆</span>
+      <span>Achievement Unlocked: <strong>First Adventure</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AREA 2 — PHP KINGDOM ============================= -->
+<section class="area area--village" id="village">
+  <div class="area__decor" aria-hidden="true">
+    <span class="windmill">🎐</span>
+    <span class="house house--1">🏠</span>
+    <span class="house house--2">🏡</span>
+    <span class="river"></span>
+  </div>
+
+  <div class="area__content card-right">
+    <span class="area__signpost">Area 02 — A quiet village by the river</span>
+    <h2 class="area__title">PHP Kingdom</h2>
+    <p class="area__story">
+      Past the forest lies a peaceful village where I learned to build for other people —
+      logins, forms, and real users waiting on the other side of a submit button.
+    </p>
+
+    <div class="project-card">
+      <h3 class="project-card__title">Online MCQ Examination System</h3>
+      <ul class="tech-tags">
+        <li>PHP</li><li>MySQL</li><li>JavaScript</li>
+      </ul>
+      <p class="project-card__label">Features built into the village hall</p>
+      <ul class="feature-list">
+        <li>Exam management</li>
+        <li>Authentication</li>
+        <li>Instant results</li>
+        <li>Performance tracking</li>
+      </ul>
+      <div class="project-card__links">
+        <a class="card-link card-link--code" href="https://github.com/parinbajayebin/online-mcq-exam-system.git" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🗂️</span> GitHub Repo
+        </a>
+      </div>
+    </div>
+
+    <div class="achievement-badge">
+      <span class="achievement-badge__icon">🏆</span>
+      <span>Achievement Unlocked: <strong>Full Stack Explorer</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AREA 3 — DATA OBSERVATORY ============================= -->
+<section class="area area--observatory" id="observatory">
+  <div class="area__decor" aria-hidden="true">
+    <span class="floating-island">🏝️</span>
+    <span class="star star--1">✦</span>
+    <span class="star star--2">✧</span>
+    <span class="star star--3">✦</span>
+    <span class="chart-float chart--1">📈</span>
+    <span class="chart-float chart--2">📊</span>
+  </div>
+
+  <div class="area__content card-left">
+    <h2 class="area__title">Data Observatory</h2>
+    <p class="area__story">
+      Floating above the village, this quiet observatory is where charts hang in the air
+      and the future gets sketched out one forecast at a time.
+    </p>
+
+    <div class="project-card">
+      <h3 class="project-card__title">Time Series Forecasting System</h3>
+      <ul class="tech-tags">
+        <li>LSTM</li><li>ARIMA</li><li>SARIMA</li><li>Prophet</li><li>Streamlit</li>
+      </ul>
+      <p class="project-card__label">Charted from the telescope</p>
+      <ul class="feature-list">
+        <li>Preprocessing</li>
+        <li>Outlier detection</li>
+        <li>Visualization</li>
+        <li>Model comparison</li>
+      </ul>
+      <div class="project-card__links">
+        <a class="card-link card-link--code" href="https://github.com/parinbajayebin/time-series-forecasting.git" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🗂️</span> GitHub Repo
+        </a>
+      </div>
+    </div>
+
+    <div class="achievement-badge">
+      <span class="achievement-badge__icon">🏆</span>
+      <span>Achievement Unlocked: <strong>Machine Learning Explorer</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AREA 4 — FOOD CITY ============================= -->
+<section class="area area--foodcity" id="foodcity">
+  <div class="area__decor" aria-hidden="true">
+    <span class="building building--1">🏢</span>
+    <span class="building building--2">🏬</span>
+    <span class="car car--1">🚗</span>
+    <span class="car car--2">🚕</span>
+    <span class="streetlight">🏮</span>
+  </div>
+
+  <div class="area__content card-right">
+    <span class="area__signpost">Area 04 — A small modern town, always cooking</span>
+    <h2 class="area__title">Food City</h2>
+    <p class="area__story">
+      Down in the busy streets, restaurants hum and orders fly between kitchens. I joined
+      a team here as a contributor, building the systems that keep the city fed.
+    </p>
+
+    <div class="project-card">
+      <h3 class="project-card__title">Cravify <span class="role-pill">Contributor</span></h3>
+      <p class="project-card__label">Developed the Restaurant Management Module</p>
+      <ul class="tech-tags">
+        <li>Node.js</li><li>Express</li><li>MongoDB</li><li>Socket.io</li>
+      </ul>
+      <ul class="feature-list">
+        <li>Menu management</li>
+        <li>Vendor workflows</li>
+        <li>Order processing</li>
+      </ul>
+      <div class="project-card__links">
+        <a class="card-link card-link--code" href="https://github.com/AYUSH420-g/cravify.git" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🗂️</span> GitHub Repo
+        </a>
+        <a class="card-link card-link--live" href="https://cravify-peach.vercel.app" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🚀</span> Try it Live
+        </a>
+      </div>
+    </div>
+
+    <div class="achievement-badge">
+      <span class="achievement-badge__icon">🏆</span>
+      <span>Achievement Unlocked: <strong>Collaborative Builder</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AREA 5 — AI PDF CHATBOT ============================= -->
+<section class="area area--lab" id="aipdfchatbot">
+  <div class="area__decor" aria-hidden="true">
+    <span class="book book--1">📖</span>
+    <span class="book book--2">📚</span>
+    <span class="particle particle--1"></span>
+    <span class="particle particle--2"></span>
+    <span class="particle particle--3"></span>
+  </div>
+
+  <div class="area__content card-left">
+    <span class="area__signpost">Area 05 — A peaceful island lined with books</span>
+    <h2 class="area__title">AI PDF Chatbot</h2>
+    <p class="area__story">
+      Quiet shelves and floating particles of thought — drop in a document, and it answers
+      your questions back, citing exactly where it found the truth.
+    </p>
+
+    <div class="project-card">
+      <h3 class="project-card__title">PDF AI Chatbot</h3>
+      <ul class="tech-tags">
+        <li>Gemini</li><li>ChromaDB</li><li>Sentence Transformers</li><li>RAG</li>
+        <li>Embeddings</li><li>Vector Search</li><li>LLMs</li>
+      </ul>
+      <p class="project-card__label">Capabilities</p>
+      <ul class="feature-list">
+        <li>Document ingestion &amp; chunking</li>
+        <li>Knowledge retrieval</li>
+        <li>Context-aware responses</li>
+        <li>Citation-aware insights</li>
+      </ul>
+      <div class="project-card__links">
+        <a class="card-link card-link--code" href="https://github.com/your-username/ai-pdf-chatbot" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🗂️</span> GitHub Repo
+        </a>
+        <a class="card-link card-link--live" href="https://ai-pdf-chatbot.example.com" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🚀</span> Try it Live
+        </a>
+      </div>
+    </div>
+
+    <div class="achievement-badge">
+      <span class="achievement-badge__icon">🏆</span>
+      <span>Achievement Unlocked: <strong>Knowledge Explorer</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AREA 6 — RESEARCH GAP FINDER ============================= -->
+<section class="area area--gapfinder" id="gapfinder">
+  <div class="area__decor" aria-hidden="true">
+    <span class="book book--1">📚</span>
+    <span class="lens">🔍</span>
+    <span class="particle particle--1"></span>
+    <span class="particle particle--2"></span>
+    <span class="particle particle--3"></span>
+  </div>
+
+  <div class="area__content card-right">
+    <span class="area__signpost">Area 06 — A neighboring shore of scrolls and lenses</span>
+    <h2 class="area__title">Research Gap Finder</h2>
+    <p class="area__story">
+      Just across the water, stacks of papers wait to be cross-examined — surfacing the
+      questions nobody has answered yet, instead of the ones everyone already has.
+    </p>
+
+    <div class="project-card">
+      <h3 class="project-card__title">Research Gap Finder</h3>
+      <ul class="tech-tags">
+        <li>Gemini</li><li>ChromaDB</li><li>Sentence Transformers</li><li>RAG</li>
+        <li>Embeddings</li><li>Vector Search</li><li>LLMs</li>
+      </ul>
+      <p class="project-card__label">Capabilities</p>
+      <ul class="feature-list">
+        <li>Research analysis</li>
+        <li>Literature gap detection</li>
+        <li>Cross-paper comparison</li>
+        <li>Citation-aware insights</li>
+      </ul>
+      <div class="project-card__links">
+        <a class="card-link card-link--code" href="https://github.com/your-username/research-gap-finder" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🗂️</span> GitHub Repo
+        </a>
+        <a class="card-link card-link--live" href="https://research-gap-finder.example.com" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🚀</span> Try it Live
+        </a>
+      </div>
+    </div>
+
+    <div class="achievement-badge">
+      <span class="achievement-badge__icon">🏆</span>
+      <span>Achievement Unlocked: <strong>Research Cartographer</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= AREA 7 — PRODUCTION CITY ============================= -->
+<section class="area area--productioncity" id="productioncity">
+  <div class="area__decor" aria-hidden="true">
+    <span class="skyline">🏙️</span>
+    <span class="train">🚆</span>
+    <span class="light light--1"></span>
+    <span class="light light--2"></span>
+    <span class="light light--3"></span>
+  </div>
+
+  <div class="area__content card-left">
+    <span class="area__signpost">Area 07 — A modern city, lit through the night</span>
+    <h2 class="area__title">Production City</h2>
+    <p class="area__story">
+      Trains run on schedule, lights stay on, and systems are built to last past the demo.
+      This is where ideas become something people can actually rely on.
+    </p>
+
+    <div class="project-card">
+      <h3 class="project-card__title">AI-Powered Mock Interview Platform</h3>
+      <ul class="tech-tags">
+        <li>FastAPI</li><li>React</li><li>PostgreSQL</li><li>Docker</li><li>Nginx</li><li>Gemini</li>
+      </ul>
+      <p class="project-card__label">Features</p>
+      <ul class="feature-list">
+        <li>Resume parsing</li>
+        <li>AI evaluation</li>
+        <li>Analytics</li>
+        <li>Question generation</li>
+      </ul>
+      <div class="project-card__links">
+        <a class="card-link card-link--code" href="https://github.com/parinbajayebin/AI-Mock-Interview.git" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🗂️</span> GitHub Repo
+        </a>
+        <a class="card-link card-link--live" href="https://ai-mock-interview-nu-eosin.vercel.app" target="_blank" rel="noopener noreferrer">
+          <span class="card-link__icon">🚀</span> Try it Live
+        </a>
+      </div>
+    </div>
+
+    <div class="achievement-badge">
+      <span class="achievement-badge__icon">🏆</span>
+      <span>Achievement Unlocked: <strong>Production AI Engineer</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= ABOUT ME — CAMPFIRE ============================= -->
+<section class="campfire" id="campfire">
+  <div class="campfire__decor" aria-hidden="true">
+    <span class="campfire__fire">🔥</span>
+    <span class="campfire__spark spark--1"></span>
+    <span class="campfire__spark spark--2"></span>
+    <span class="campfire__spark spark--3"></span>
+    <span class="campfire__log">🪵</span>
+  </div>
+
+  <div class="campfire__content">
+    <span class="area__signpost">A story, told beside the fire</span>
+    <h2 class="area__title">About Me</h2>
+    <p class="campfire__text reveal-text">
+      I'm a Computer Science student and Backend &amp; AI Engineer passionate about building
+      scalable software and intelligent AI-powered systems.
+    </p>
+    <p class="campfire__text reveal-text">
+      My journey began with web development using PHP and MySQL, where I built full-stack
+      applications and learned the fundamentals of software engineering. As my interests
+      evolved, I expanded into Python, FastAPI, machine learning, and Generative AI, focusing
+      on systems that combine modern backend architecture with Large Language Models.
+    </p>
+    <p class="campfire__text reveal-text">
+      Today, I design and deploy applications that leverage Retrieval-Augmented Generation,
+      vector search, and semantic retrieval to deliver accurate, context-aware responses from
+      domain-specific knowledge bases.
+    </p>
+    <p class="campfire__text reveal-text">
+      I enjoy continuously learning new technologies and applying them through practical
+      projects that solve real-world problems.
+    </p>
+  </div>
+</section>
+
+<!-- ============================= EDUCATION PATH ============================= -->
+<section class="education" id="education">
+  <span class="area__signpost area__signpost--center">A road paved with milestones</span>
+  <h2 class="area__title area__title--center">Education Path</h2>
+
+  <div class="edu-road">
+    <div class="edu-node">
+      <div class="edu-node__marker">🎒</div>
+      <div class="edu-node__card">
+        <h3>10th · GSEB</h3>
+        <p>82.66% &nbsp;·&nbsp; 97.84 percentile</p>
+      </div>
+    </div>
+    <div class="edu-node">
+      <div class="edu-node__marker">📘</div>
+      <div class="edu-node__card">
+        <h3>12th · GSHEB</h3>
+        <p>86.27% &nbsp;·&nbsp; 97.36 percentile</p>
+      </div>
+    </div>
+    <div class="edu-node">
+      <div class="edu-node__marker">🎓</div>
+      <div class="edu-node__card">
+        <h3>Bachelor of Computer Science</h3>
+        <p>Department of Computer Science (Rollwala), Gujarat University</p>
+        <p>GPA 8.6</p>
+      </div>
+    </div>
+    <div class="edu-node">
+      <div class="edu-node__marker">🏛️</div>
+      <div class="edu-node__card">
+        <h3>Master of Information Technology</h3>
+        <p>DAIICT</p>
+        <p>CPI 7.64</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="achievement-badge achievement-badge--center">
+    <span class="achievement-badge__icon">🏆</span>
+    <span>Achievement Unlocked: <strong>Scholar</strong></span>
+  </div>
+</section>
+
+<!-- ============================= SKILL TREE ============================= -->
+<section class="skilltree" id="skilltree">
+  <span class="area__signpost area__signpost--center">Powers gathered along the way</span>
+  <h2 class="area__title area__title--center">Skill Tree</h2>
+
+  <div class="skilltree__grid">
+    <div class="skill-branch">
+      <h3 class="skill-branch__title">🌱 Programming</h3>
+      <ul class="skill-leaves">
+        <li>Python</li><li>JavaScript</li><li>Java</li><li>C++</li><li>Bash</li>
+      </ul>
+    </div>
+    <div class="skill-branch">
+      <h3 class="skill-branch__title">🛠️ Backend</h3>
+      <ul class="skill-leaves">
+        <li>FastAPI</li><li>Node.js</li><li>PHP</li><li>REST APIs</li><li>Microservices</li>
+      </ul>
+    </div>
+    <div class="skill-branch">
+      <h3 class="skill-branch__title">🗄️ Databases</h3>
+      <ul class="skill-leaves">
+        <li>PostgreSQL</li><li>MySQL</li><li>MongoDB</li><li>Redis</li><li>ChromaDB</li>
+      </ul>
+    </div>
+    <div class="skill-branch">
+      <h3 class="skill-branch__title">✨ AI</h3>
+      <ul class="skill-leaves">
+        <li>LLMs</li><li>RAG</li><li>LangChain</li><li>Embeddings</li><li>Semantic Search</li><li>Prompt Engineering</li><li>Agentic AI</li>
+      </ul>
+    </div>
+    <div class="skill-branch">
+      <h3 class="skill-branch__title">⚙️ Infrastructure</h3>
+      <ul class="skill-leaves">
+        <li>Docker</li><li>CI/CD</li><li>Nginx</li><li>Linux</li><li>Render</li><li>Vercel</li>
+      </ul>
+    </div>
+    <div class="skill-branch">
+      <h3 class="skill-branch__title">🧰 Tools</h3>
+      <ul class="skill-leaves">
+        <li>Git</li><li>GitHub</li><li>System Design</li><li>SOLID Principles</li><li>Monitoring</li><li>Debugging</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= WISE NPC TERMINAL ============================= -->
+<section class="npc" id="npc">
+  <span class="area__signpost area__signpost--center">An old traveler rests by the road</span>
+  <h2 class="area__title area__title--center">Ask the Wise Traveler</h2>
+
+  <div class="npc__window">
+    <div class="npc__header">
+      <span class="npc__avatar">🧙</span>
+      <span class="npc__header-title">traveler@parins-adventure</span>
+    </div>
+    <div class="npc__log" id="npcLog" aria-live="polite">
+      <p class="npc__line npc__line--npc">A weary traveler nods at you. "Ask me something — try <code>whoami</code>, <code>skills</code>, <code>projects</code>, or <code>future</code>."</p>
+    </div>
+    <div class="npc__chips">
+      <button data-cmd="whoami">whoami</button>
+      <button data-cmd="skills">skills</button>
+      <button data-cmd="projects">projects</button>
+      <button data-cmd="future">future</button>
+    </div>
+    <form class="npc__form" id="npcForm">
+      <span class="npc__prompt">&gt;</span>
+      <input type="text" id="npcInput" placeholder="type a command…" autocomplete="off" aria-label="Command input">
+      <button type="submit" class="npc__send">Ask</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================= FINAL AREA — CHERRY BLOSSOM VALLEY ============================= -->
+<section class="blossomvalley" id="blossomvalley">
+  <div class="blossomvalley__decor" aria-hidden="true">
+    <span class="blossom-tree blossom-tree--1">🌸</span>
+    <span class="blossom-tree blossom-tree--2">🌸</span>
+    <span class="sun"></span>
+  </div>
+  <div id="petalContainer" class="petal-container" aria-hidden="true"></div>
+
+  <div class="blossomvalley__content">
+    <span class="area__signpost area__signpost--center">A quiet valley at sunset</span>
+    <h2 class="blossomvalley__headline">
+      Building intelligent systems today.<br>
+      Creating interactive worlds tomorrow.
+    </h2>
+    <p class="blossomvalley__dream">
+      <strong>The dream:</strong> to combine technology, AI, storytelling, animation, and
+      interactive media into worlds people actually want to wander through.
+    </p>
+  </div>
+</section>
+
+<!-- ============================= CONTACT — SHRINE ============================= -->
+<section class="shrine" id="contact">
+  <div class="shrine__decor" aria-hidden="true">
+    <span class="shrine__lantern lantern--1">🏮</span>
+    <span class="shrine__lantern lantern--2">🏮</span>
+    <span class="shrine__torii">⛩️</span>
+    <span class="shrine__star s1">✦</span>
+    <span class="shrine__star s2">✧</span>
+    <span class="shrine__star s3">✦</span>
+  </div>
+
+  <div class="shrine__content">
+    <span class="area__signpost area__signpost--center">Journey's end — for now</span>
+    <h2 class="area__title area__title--center">Rest Here, Traveler</h2>
+    <p class="shrine__text">If our paths should cross again, you'll find me here:</p>
+
+    <div class="shrine__buttons">
+      <a href="https://github.com/parinbajayebin" target="_blank" rel="noopener" class="btn btn--shrine">GitHub</a>
+      <a href="https://www.linkedin.com/in/parin-makwana-b614a6333?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener" class="btn btn--shrine">LinkedIn</a>
+      <a href="https://instagram.com/parinnyarr" target="_blank" rel="noopener" class="btn btn--shrine">Instagram</a>
+      <a href="202512098@dau.ac.in" class="btn btn--shrine">Email</a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>Handcrafted with ❤️ and a little too much CSS, by Parin D. Makwana.</p>
+  </footer>
+</section>
+
+</main>
+
+<!-- libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasGSAP = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+  var hasLenis = typeof Lenis !== 'undefined';
+
+  /* ----------------------------------------------------------
+     SMOOTH SCROLL (Lenis) + GSAP ScrollTrigger sync
+     ---------------------------------------------------------- */
+  var lenis = null;
+  if (hasLenis && !prefersReducedMotion) {
+    lenis = new Lenis({
+      duration: 1.15,
+      smoothWheel: true,
+      easing: function (t) { return 1 - Math.pow(1 - t, 3); }
+    });
+
+    if (hasGSAP) {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      requestAnimationFrame(function raf(time) { lenis.raf(time); requestAnimationFrame(raf); });
+    }
+  }
+
+  function smoothScrollTo(target) {
+    if (lenis) { lenis.scrollTo(target, { offset: 0, duration: 1.4 }); }
+    else if (target) {
+      var el = typeof target === 'string' ? document.querySelector(target) : target;
+      if (el && el.scrollIntoView) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  /* ----------------------------------------------------------
+     QUEST LOG (chapter nav)
+     ---------------------------------------------------------- */
+  var questToggle = document.getElementById('questlogToggle');
+  var questList = document.getElementById('questlogList');
+  if (questToggle && questList) {
+    questToggle.addEventListener('click', function () {
+      var open = questList.classList.toggle('is-open');
+      questToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+  var chapterLinks = Array.prototype.slice.call(document.querySelectorAll('[data-chapter]'));
+  chapterLinks.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      var id = link.getAttribute('href');
+      smoothScrollTo(id);
+      questList.classList.remove('is-open');
+      questToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // highlight the active chapter as the user scrolls
+  var chapterSections = chapterLinks.map(function (l) {
+    return document.querySelector(l.getAttribute('href'));
+  }).filter(Boolean);
+
+  if ('IntersectionObserver' in window && chapterSections.length) {
+    var chapterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var id = '#' + entry.target.id;
+        var link = chapterLinks.filter(function (l) { return l.getAttribute('href') === id; })[0];
+        if (!link) return;
+        if (entry.isIntersecting) {
+          chapterLinks.forEach(function (l) { l.classList.remove('is-active'); });
+          link.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    chapterSections.forEach(function (s) { chapterObserver.observe(s); });
+  }
+
+  // hero "Begin Journey" + any in-page anchor uses smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    if (a.hasAttribute('data-chapter')) return; // already handled
+    a.addEventListener('click', function (e) {
+      var id = a.getAttribute('href');
+      if (id.length > 1 && document.querySelector(id)) {
+        e.preventDefault();
+        smoothScrollTo(id);
+      }
+    });
+  });
+
+  /* ----------------------------------------------------------
+     NIGHT SKY toggling — brighten stars over "night" chapters
+     ---------------------------------------------------------- */
+  var nightIds = ['observatory', 'aipdfchatbot', 'gapfinder', 'productioncity', 'npc', 'contact'];
+  var skyStars = document.querySelector('.sky-stars');
+  if ('IntersectionObserver' in window && skyStars) {
+    var nightObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) skyStars.classList.add('is-bright');
+      });
+      // dim again only if none of the night sections currently intersect
+      var anyVisible = nightIds.some(function (id) {
+        var el = document.getElementById(id);
+        if (!el) return false;
+        var r = el.getBoundingClientRect();
+        return r.top < window.innerHeight * 0.7 && r.bottom > window.innerHeight * 0.2;
+      });
+      if (!anyVisible) skyStars.classList.remove('is-bright');
+    }, { threshold: 0.15 });
+    nightIds.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) nightObserver.observe(el);
+    });
+  }
+
+  /* ----------------------------------------------------------
+     TRAVELER — the little lantern-carrying marker that
+     wanders down the winding road of "areas"
+     ---------------------------------------------------------- */
+  var traveler = document.getElementById('traveler');
+  if (traveler && hasGSAP && window.innerWidth > 860) {
+    var roadStart = document.getElementById('forest');
+    var roadEnd = document.getElementById('blossomvalley');
+    if (roadStart && roadEnd) {
+      ScrollTrigger.create({
+        trigger: roadStart,
+        start: 'top center',
+        endTrigger: roadEnd,
+        end: 'bottom center',
+        onUpdate: function (self) {
+          var p = self.progress;
+          var top = 14 + p * 74;
+          var left = 50 + Math.sin(p * Math.PI * 9) * 30;
+          traveler.style.top = top + '%';
+          traveler.style.left = left + '%';
+        },
+        onEnter: function () { traveler.classList.add('is-visible'); },
+        onEnterBack: function () { traveler.classList.add('is-visible'); },
+        onLeave: function () { traveler.classList.remove('is-visible'); },
+        onLeaveBack: function () { traveler.classList.remove('is-visible'); }
+      });
+    }
+  }
+
+  /* ----------------------------------------------------------
+     SCROLL REVEALS — fade + rise, driven entirely by GSAP so
+     the page stays fully visible if the CDN scripts fail.
+     ---------------------------------------------------------- */
+  if (hasGSAP) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    var revealGroups = [
+      '.hero__inner > *',
+      '.area__content > *',
+      '.campfire__text',
+      '.edu-node',
+      '.skill-branch',
+      '.npc__window',
+      '.blossomvalley__content > *',
+      '.shrine__content > *'
+    ];
+
+    revealGroups.forEach(function (selector) {
+      var items = gsap.utils.toArray(selector);
+      items.forEach(function (el, i) {
+        gsap.fromTo(el,
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', delay: (i % 6) * 0.06,
+            scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      });
+    });
+
+    // gentle parallax drift for decorative layers
+    gsap.utils.toArray('.area__decor').forEach(function (decor) {
+      gsap.to(decor, {
+        y: -60, ease: 'none',
+        scrollTrigger: { trigger: decor.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    });
+
+    ScrollTrigger.refresh();
+  }
+
+  /* ----------------------------------------------------------
+     CHERRY BLOSSOM PETALS — spawned lazily near the finale
+     ---------------------------------------------------------- */
+  var petalContainer = document.getElementById('petalContainer');
+  var petalsSpawned = false;
+  function spawnPetals() {
+    if (petalsSpawned || !petalContainer || prefersReducedMotion) return;
+    petalsSpawned = true;
+    var glyphs = ['🌸', '🌸', '🌺', '🌸'];
+    for (var i = 0; i < 26; i++) {
+      var petal = document.createElement('span');
+      petal.className = 'petal';
+      petal.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+      var left = Math.random() * 100;
+      var duration = 6 + Math.random() * 7;
+      var delay = Math.random() * 8;
+      var drift = (Math.random() * 120 - 60) + 'px';
+      var size = 0.8 + Math.random() * 0.9;
+      petal.style.left = left + '%';
+      petal.style.setProperty('--drift', drift);
+      petal.style.fontSize = size + 'rem';
+      petal.style.animationDuration = duration + 's';
+      petal.style.animationDelay = delay + 's';
+      petalContainer.appendChild(petal);
+    }
+  }
+  var blossomEl = document.getElementById('blossomvalley');
+  if (blossomEl) {
+    if ('IntersectionObserver' in window) {
+      var petalObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) { if (entry.isIntersecting) spawnPetals(); });
+      }, { threshold: 0.1 });
+      petalObserver.observe(blossomEl);
+    } else {
+      spawnPetals();
+    }
+  }
+
+  /* ----------------------------------------------------------
+     WISE NPC TERMINAL
+     ---------------------------------------------------------- */
+  var npcLog = document.getElementById('npcLog');
+  var npcForm = document.getElementById('npcForm');
+  var npcInput = document.getElementById('npcInput');
+  var npcChips = document.querySelectorAll('.npc__chips button');
+
+  var npcResponses = {
+    whoami: "Parin D. Makwana — Computer Science student, Backend &amp; AI Engineer. Started in PHP villages, now building RAG systems and agentic AI on the frontier islands.",
+    skills: "Programming: Python, JavaScript, Java, C++, Bash. Backend: FastAPI, Node.js, PHP, REST APIs, Microservices. Databases: PostgreSQL, MySQL, MongoDB, Redis, ChromaDB. AI: LLMs, RAG, LangChain, Embeddings, Semantic Search, Prompt Engineering, Agentic AI. Infra: Docker, CI/CD, Nginx, Linux, Render, Vercel.",
+    projects: "Questism (RPG), Online MCQ Examination System, Time Series Forecasting System, Cravify (Restaurant Module), PDF AI Chatbot &amp; Research Gap Finder, and an AI-Powered Mock Interview Platform. Scroll back through the map to see each one up close.",
+    future: "To combine technology, AI, storytelling, animation, and interactive media — building intelligent systems today, and interactive worlds tomorrow.",
+    help: "Try one of these: <code>whoami</code>, <code>skills</code>, <code>projects</code>, <code>future</code>.",
+    hello: "The old traveler tips their hat. \"Well met, friend.\"",
+    hi: "The old traveler tips their hat. \"Well met, friend.\""
+  };
+
+  function npcLine(text, who) {
+    var p = document.createElement('p');
+    p.className = 'npc__line npc__line--' + who;
+    p.innerHTML = text;
+    npcLog.appendChild(p);
+    npcLog.scrollTop = npcLog.scrollHeight;
+  }
+
+  function handleCommand(raw) {
+    var cmd = raw.trim().toLowerCase();
+    if (!cmd) return;
+    npcLine(cmd, 'user');
+    var reply = npcResponses[cmd] || "The traveler scratches their head. \"I don't know that one — try " +
+      "<code>whoami</code>, <code>skills</code>, <code>projects</code>, or <code>future</code>.\"";
+    setTimeout(function () { npcLine(reply, 'npc'); }, 280);
+  }
+
+  if (npcForm && npcInput) {
+    npcForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      handleCommand(npcInput.value);
+      npcInput.value = '';
+    });
+  }
+  npcChips.forEach(function (btn) {
+    btn.addEventListener('click', function () { handleCommand(btn.getAttribute('data-cmd')); });
+  });
+
+})();
+</script>
+</body>
+</html>
