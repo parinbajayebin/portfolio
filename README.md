@@ -19,10 +19,6 @@ An interactive, story-driven portfolio inspired by Studio Ghibli, Monument Valle
 - GSAP
 - Lenis
 
-## 🚀 Live Demo
-
-👉 [parin-portfolio-lac.vercel.app]
-
 ## 📫 Connect With Me
 
 - GitHub: [@parinbajayebin](https://github.com/parinbajayebin)
